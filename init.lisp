@@ -37,7 +37,7 @@ If a server is already running it is stopped first."
       (format t "~&; No server is running.~%")))
 
 (defun nav-bar ()
-  (spinneret:with-html
+  (spinneret:with-html-string
      (:nav
       (:div :style "display: flex; flex-direction: row; justify-content: space-evenly" 
        (:div (:a :href "/home" "home")) 
@@ -49,24 +49,39 @@ If a server is already running it is stopped first."
      (:doctype)
      (:html
       (:head
+       (:style "img { max-width: 80%; display: block; margin: 0 auto; }")
        (:title ,title))
-      (:body ,@body))))
+      (:body
+       (:raw (nav-bar))
+       ,@body
+       ))))
 
 (defmacro with-page-raw ((&key title) &body body)
   `(spinneret:with-html-string
      (:doctype)
      (:html
-      (:head
-       (:title ,title))
+      (:head 
+       (:style "img { max-width: 80%; display: block; margin: 0 auto; }</style>")
+       (:title ,title)
+      )
       (:body
-       (nav-bar)
+       
+       (blog-inner ,@body)))))
+
+(defmacro blog-inner (&body body)
+  `(spinneret:with-html
+     (:div 
+      :style "display: flex; justify-content: center; align-items: center;"
+      (:div 
+       :id "blog-page"
+       :style "width: 80%;"
        (:raw ,@body)))))
+
 (defun home-page ()
   (with-page 
-    (:title "Home page")
-    (:header
-     (nav-bar)
-    )))
+      (:title "Home page")
+    (:header ("test")
+     )))
 
 (hunchentoot:define-easy-handler (test :uri "/test") ()
   (print "Hitting /test")
@@ -79,9 +94,9 @@ If a server is already running it is stopped first."
     (print "hitting /yo")
     (format nil "Hey~@[ ~A~]!" name)))
 
-(hunchentoot:define-easy-handler (home :uri "/home") () 
+(hunchentoot:define-easy-handler (home :uri "/") () 
   (setf (hunchentoot:content-type*) "text/html")
-  (spinneret:with-html-string (:h1 "test")))
+  (home-page))
 
 (defvar *routes* (make-hash-table :test #'equal)
   "Maps URI strings to their dispatcher, so redefinitions replace rather than stack.")
@@ -110,26 +125,20 @@ If a server is already running it is stopped first."
 (define-route "/post_list"
   (let* ((file-list (directory *search-pattern*))
          (file-names (mapcar 'pathname-name file-list)))
-    
-    
     (setf (hunchentoot:content-type*) "text/html")
     (with-page 
         (:title "Post list")
       (to-url-list file-names)))
   )
 
-(define-route "/file/"
-  (let* ((uri (hunchentoot:request-uri*))
-         (filename (subseq uri (length "/file/"))))
-    (setf (hunchentoot:content-type*) "text/plain")
-    (uiop:read-file-string (merge-pathnames filename *cwd*))))
-
 (defun markdown-from-file (file title) 
-  (with-page-raw 
+  (with-page
     (:title title)
-    (nth-value 
-     1 
-     (cl-markdown:markdown (uiop:read-file-string file) :format :html :stream nil))
+    (blog-inner
+      (nth-value 1 
+                 (spinneret:with-html
+                   (cl-markdown:markdown 
+                    (uiop:read-file-string file) :format :html :stream nil))))
    ))
 
 (define-route "/md/"

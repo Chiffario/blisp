@@ -15,6 +15,6 @@
   :initargs (:%version :latest)
   :version "ql-2024-10-12"))
 ("cl-markdown" .
- (:class qlot/source/ql:source-ql
-  :initargs (:%version :latest)
+ (:class qlot/source/github:source-github
+  :initargs (:repos "spinneret/cl-markdown" :ref nil :branch nil :tag nil)
   :version "ql-2019-12-27"))

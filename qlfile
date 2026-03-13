@@ -1,4 +1,4 @@
 ql hunchentoot
 ql spinneret
 ql alexandria
-ql cl-markdown
+github spinneret/cl-markdown
