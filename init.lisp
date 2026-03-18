@@ -17,8 +17,8 @@
   "Search pattern for markdown files")
 
 (defun start-server (&key (port 8080))
-  "Start the web server on PORT (default 8080).
-If a server is already running it is stopped first."
+  "Start the web server on PORT (default 8080). 
+  If a server is already running it is stopped first."
   (when *server*
     (format t "~&; Server already running – restarting…~%")
     (stop-server))
@@ -71,10 +71,13 @@ If a server is already running it is stopped first."
 (defmacro blog-inner (&body body)
   `(spinneret:with-html
      (:div 
-      :style "display: flex; justify-content: center; align-items: center;"
-      (:div 
-       :id "blog-page"
-       :style "width: 80%;"
+      :style "display: flex; justify-content: center; align-items: center;
+              margin: 20px;
+              box-shadow: 10px 6px #00000030;
+              border: 3px solid #11111180; border-radius: 5px"
+       (:div 
+        :id "blog-page"
+        :style "width: 80%;"
        (:raw ,@body)))))
 
 (defun home-page ()
@@ -119,16 +122,25 @@ If a server is already running it is stopped first."
 (defun to-url-list (file-name-list)
   (mapcar 
    (lambda (filename) 
-     (spinneret:with-html (:a :href (concatenate 'string "/md/" filename) filename)))
+     (spinneret:with-html-string (:a :href (concatenate 'string "/md/" filename) filename)))
    file-name-list))
 
+(defun post-list (url-list)
+  (spinneret:with-html-string 
+    (:ul 
+     (mapcar 
+      (lambda (url) 
+        (:li url) 
+        )
+      url-list))))
 (define-route "/post_list"
   (let* ((file-list (directory *search-pattern*))
-         (file-names (mapcar 'pathname-name file-list)))
+         (file-names (mapcar 'pathname-name file-list))
+         (url-list (to-url-list file-names)))
     (setf (hunchentoot:content-type*) "text/html")
     (with-page 
         (:title "Post list")
-      (to-url-list file-names)))
+      (:raw (apply 'uiop:strcat url-list))))
   )
 
 (defun markdown-from-file (file title) 
