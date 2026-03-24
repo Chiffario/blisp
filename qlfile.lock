@@ -18,3 +18,7 @@
  (:class qlot/source/github:source-github
   :initargs (:repos "spinneret/cl-markdown" :ref nil :branch nil :tag nil)
   :version "ql-2019-12-27"))
+("fxml" .
+ (:class qlot/source/ql:source-ql
+  :initargs (:%version :latest)
+  :version "ql-2026-01-01"))
