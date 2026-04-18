@@ -7,12 +7,15 @@
                :spinneret
                :cl-markdown
                :fxml
-               :str)
+               :str
+               :bordeaux-threads
+               :micros)
   :components ((:module "src"
                 :components
                 ((:file "main")
                  (:file "templating")
                  (:file "markdown")
                  (:file "feed")
-                 (:file "routing"))))
+                 (:file "routing")
+                 (:file "highlight"))))
   :description "")

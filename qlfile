@@ -3,3 +3,5 @@ ql spinneret
 ql alexandria
 github spinneret/cl-markdown
 ql fxml
+ql bordeaux-threads
+git micros https://github.com/lem-project/micros.git

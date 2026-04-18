@@ -9,6 +9,15 @@
       )
      )))
 
+(defun footer () 
+  (spinneret:with-html
+    (:footer
+      (:div :class "footer"
+       (:div (:a :href "https://github.com/Chiffario" "github"))
+       )
+     )
+    ))
+
 (defmacro with-page ((&key title) &body body)
   `(spinneret:with-html-string
      (:doctype)
@@ -19,6 +28,7 @@
       (:body
        (nav-bar)
        ,@body
+       (footer)
        ))))
 
 (defmacro blog-inner (&body body)

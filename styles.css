@@ -1,41 +1,41 @@
 :root {
-	/* Rosé Pine Dawn */
-	--rp-base: #faf4ed;
-	--rp-surface: #fffaf3;
-	--rp-overlay: #f2e9e1;
-	--rp-muted: #9893a5;
-	--rp-subtle: #797593;
-	--rp-text: #575279;
-	--rp-love: #b4637a;
-	--rp-gold: #ea9d34;
-	--rp-rose: #d7827e;
-	--rp-pine: #286983;
-	--rp-foam: #56949f;
-	--rp-iris: #907aa9;
-	--rp-highlight-low: #f4ede8;
-	--rp-highlight-med: #dfdad9;
-	--rp-highlight-high: #cecacd;
+  /* Rosé Pine Dawn */
+  --rp-base: #faf4ed;
+  --rp-surface: #fffaf3;
+  --rp-overlay: #f2e9e1;
+  --rp-muted: #9893a5;
+  --rp-subtle: #797593;
+  --rp-text: #575279;
+  --rp-love: #b4637a;
+  --rp-gold: #ea9d34;
+  --rp-rose: #d7827e;
+  --rp-pine: #286983;
+  --rp-foam: #56949f;
+  --rp-iris: #907aa9;
+  --rp-highlight-low: #f4ede8;
+  --rp-highlight-med: #dfdad9;
+  --rp-highlight-high: #cecacd;
 }
 
 @media (prefers-color-scheme: dark) {
-	:root {
-		/* Rosé Pine */
-		--rp-base: #191724;
-		--rp-surface: #1f1d2e;
-		--rp-overlay: #26233a;
-		--rp-muted: #6e6a86;
-		--rp-subtle: #908caa;
-		--rp-text: #e0def4;
-		--rp-love: #eb6f92;
-		--rp-gold: #f6c177;
-		--rp-rose: #ebbcba;
-		--rp-pine: #31748f;
-		--rp-foam: #9ccfd8;
-		--rp-iris: #c4a7e7;
-		--rp-highlight-low: #21202e;
-		--rp-highlight-med: #403d52;
-		--rp-highlight-high: #524f67;
-	}
+  :root {
+    /* Rosé Pine */
+    --rp-base: #191724;
+    --rp-surface: #1f1d2e;
+    --rp-overlay: #26233a;
+    --rp-muted: #6e6a86;
+    --rp-subtle: #908caa;
+    --rp-text: #e0def4;
+    --rp-love: #eb6f92;
+    --rp-gold: #f6c177;
+    --rp-rose: #ebbcba;
+    --rp-pine: #31748f;
+    --rp-foam: #9ccfd8;
+    --rp-iris: #c4a7e7;
+    --rp-highlight-low: #21202e;
+    --rp-highlight-med: #403d52;
+    --rp-highlight-high: #524f67;
+  }
 }
 
 :root {
@@ -59,7 +59,9 @@ img {
   margin: 24px 0;
   border: 1px solid var(--overlay);
 
-box-shadow: 0 8px 25px rgba(0,0,0,0.3);}
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
 .post-block {
   display: block;
   width: 100%;
@@ -78,6 +80,7 @@ box-shadow: 0 8px 25px rgba(0,0,0,0.3);}
   font-size: 14px;
   color: var(--rp-muted);
 }
+
 .post-block>div {
   background: var(--surface);
   border: 2px solid var(--overlay);
@@ -120,12 +123,59 @@ box-shadow: 0 8px 25px rgba(0,0,0,0.3);}
   gap: 40px;
   margin-bottom: 40px;
 }
-.nav a {
+
+footer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 20px;
+  bottom: 10px;
+  width: 100%;
+}
+
+.nav a, .footer a {
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 14px;
 }
 
-.nav a:hover {
+.nav a:hover, .footer a:hover {
   color: var(--rp-iris);
+}
+
+.type {
+  color: var(--rp-foam);
+}
+
+.type\.builtin, .constant\.builtin {
+  color: var(--rp-love);
+}
+
+.variable\.parameter, .variable\.builtin {
+  color: var(--text);
+}
+
+.comment, .comment\.documentation {
+  color: var(--rp-muted);
+}
+
+.punctuation\.bracket, .punctuation\.delimeter, .operator {
+  color: var(--rp-text);
+}
+
+.function, .function\.method {
+  color: var(--rp-rose);
+}
+
+.function, .function\.macro {
+  color: var(--rp-love);
+}
+
+.keyword {
+  color: var(--rp-pine);
+}
+
+.string {
+  color: var(--rp-gold);
 }

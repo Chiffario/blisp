@@ -42,7 +42,7 @@
 
 (hunchentoot:define-easy-handler (test :uri "/styles.css") ()
   (setf (hunchentoot:content-type*) "text/css")
-  (uiop:read-file-string "/home/chiffa/Dev/Projects/blisp/styles.css"))
+  (uiop:read-file-string (uiop/os:getenvp "BLOG_STYLE_PATH")))
 
 (hunchentoot:define-easy-handler (home :uri "/") () 
   (setf (hunchentoot:content-type*) "text/html")

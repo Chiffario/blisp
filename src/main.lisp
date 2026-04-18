@@ -2,16 +2,22 @@
 (in-package :blisp)
 
 (defun main () 
-  (progn 
+  (progn
     (init-article-list)
-    (start-server)
+    (bt:make-thread
+     (start-server :port *blog-port*) :name "blog-thread")
+    (bt:make-thread (lambda () (micros:create-server :port 4006 :dont-close t)) :name "blog-micros")
     (defvar *rss-feed* (generate-rss-from-metadata))
     ))
+
+(eval-when (:execute)
+  (main))
 
 (defvar *server* nil
   "Running Hunchentoot acceptor")
 
 (defvar *pub-url* (uiop/os:getenvp "BLOG_POST_URL"))
+(defvar *blog-port* 8080)
 
 (defvar *cwd*
   (uiop/pathname:ensure-pathname

@@ -86,3 +86,28 @@
                  (spinneret:with-html
                    (render-markdown file))))
     ))
+
+
+; Block evals in code blocks
+(defmethod process-span-in-span-p
+    ((sub-span (eql 'eval)) (current-span (eql 'code)))
+  (values nil))
+
+;; Priority fix — runs once at load time
+(defun fix-cl-markdown-eval-priority ()
+  (cl-containers:iterate-key-value
+   cl-markdown::*spanner-parsing-environments*
+   (lambda (key container)
+     (unless (equal key '(cl-markdown::code))
+       (let ((scanner
+               (cl-containers:search-for-match
+                container
+                (lambda (s) (eq (cl-markdown::scanner-name s) 'cl-markdown::eval)))))
+         (when scanner
+           (cl-containers:delete-item container scanner)
+           (cl-containers:insert-item
+            container
+            (cl-markdown::make-markdown-scanner
+              :regex (cl-markdown::scanner-regex scanner)
+              :name 'cl-markdown::eval
+              :priority 8.5))))))))
